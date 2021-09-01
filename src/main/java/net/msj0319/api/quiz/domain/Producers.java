@@ -11,7 +11,7 @@ import org.springframework.util.concurrent.ListenableFuture;
 public class Producers {
     private final KafkaTemplate<String, String> kafkaTemplate;
 
-    public void sendMessage(String topic, String payload){
+    public void sendMessage(String topic, String payload) {
         ListenableFuture<SendResult<String, String>> listenable = kafkaTemplate.send(topic, payload);
     }
 }

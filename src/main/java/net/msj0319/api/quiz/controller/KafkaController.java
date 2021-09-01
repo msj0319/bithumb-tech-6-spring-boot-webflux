@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/kafka")
 public class KafkaController {
     private final KafkaProducer producer;
+
     @GetMapping
     public String hello() {
         return "Hello Kafka";

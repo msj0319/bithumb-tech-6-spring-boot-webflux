@@ -13,7 +13,9 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends ReactiveMongoRepository<User, String> {
     Optional<User> findByAlias(String alias);
+
     Flux<User> findAll();
+
     Mono<User> findByUserid();
 
     @Query("{'alias' : {$regex: ?0}}")

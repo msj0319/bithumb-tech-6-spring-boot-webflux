@@ -19,21 +19,24 @@ public class AttemptController {
     @RequiredArgsConstructor
     @NoArgsConstructor(force = true)
     @Getter
-    static final class ResultResponse{
+    static final class ResultResponse {
         private final boolean correct;
     }
+
     @PostMapping
-    ResponseEntity<Attempt> postResult(@RequestBody Attempt attempt){
+    ResponseEntity<Attempt> postResult(@RequestBody Attempt attempt) {
         boolean isCorrect = quizService.checkAttempt(attempt);
         Attempt attemptCopy = new Attempt(attempt.getUser(), attempt.getQuiz(), attempt.getResultAttempt(), isCorrect);
         return ResponseEntity.ok(attemptCopy);
     }
+
     @GetMapping
-    ResponseEntity<Flux<Attempt>> getStatistics(@RequestParam("alias") String alias){
+    ResponseEntity<Flux<Attempt>> getStatistics(@RequestParam("alias") String alias) {
         return ResponseEntity.ok(quizService.getStatsForUser(alias));
     }
+
     @GetMapping("/{id}")
-    ResponseEntity<Mono<Attempt>> getResultById(final  @PathVariable("id") long id){
+    ResponseEntity<Mono<Attempt>> getResultById(final @PathVariable("id") long id) {
         return ResponseEntity.ok(quizService.getResultById(id));
     }
 }

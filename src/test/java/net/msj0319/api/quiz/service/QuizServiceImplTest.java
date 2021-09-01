@@ -18,9 +18,13 @@ import static org.mockito.BDDMockito.given;
 @ExtendWith(MockitoExtension.class)
 class QuizServiceImplTest {
     private QuizServiceImpl quizService;
-    @Mock GeneratorServiceImpl generatorService;
-    @Mock UserRepository userRepository;
-    @Mock AttemptRepository attemptRepository;
+    @Mock
+    GeneratorServiceImpl generatorService;
+    @Mock
+    UserRepository userRepository;
+    @Mock
+    AttemptRepository attemptRepository;
+
     @BeforeEach
     void setUp() {
         quizService = new QuizServiceImpl(generatorService, userRepository, attemptRepository);

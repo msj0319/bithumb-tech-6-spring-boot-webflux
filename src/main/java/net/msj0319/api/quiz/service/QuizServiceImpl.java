@@ -13,11 +13,13 @@ import reactor.core.publisher.Mono;
 
 import java.util.Optional;
 
-@Service @RequiredArgsConstructor
-public class QuizServiceImpl implements QuizService{
+@Service
+@RequiredArgsConstructor
+public class QuizServiceImpl implements QuizService {
     private final GeneratorService generatorService;
     private final UserRepository userRepository;
     private final AttemptRepository attemptRepository;
+
     @Override
     public Mono<Quiz> createQuiz() {
         int factorA = generatorService.randomFactor();
@@ -36,7 +38,7 @@ public class QuizServiceImpl implements QuizService{
 
         // Score
         boolean isCorrect = attempt.getResultAttempt() == attempt.getQuiz().getFactorA() *
-                                                            attempt.getQuiz().getFactorB();
+                attempt.getQuiz().getFactorB();
 
         // Create Copy
         Attempt checkAttempt = new Attempt(attempt.getUser(), attempt.getQuiz(), attempt.getResultAttempt(), isCorrect);

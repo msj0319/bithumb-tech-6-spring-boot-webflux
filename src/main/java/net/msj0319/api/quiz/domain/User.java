@@ -10,7 +10,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.io.Serializable;
 
 @Document(collection = "users")
-@Getter @ToString @RequiredArgsConstructor @EqualsAndHashCode
+@Getter
+@ToString
+@RequiredArgsConstructor
+@EqualsAndHashCode
 public class User implements Serializable {
     @Id
     private final String userid;

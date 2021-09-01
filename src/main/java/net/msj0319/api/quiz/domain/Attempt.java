@@ -12,7 +12,8 @@ import java.io.Serializable;
 @Getter
 @ToString
 @RequiredArgsConstructor
-@EqualsAndHashCode @Document(collection = "attempts")
+@EqualsAndHashCode
+@Document(collection = "attempts")
 public class Attempt implements Serializable {
     @Id
     private long id;

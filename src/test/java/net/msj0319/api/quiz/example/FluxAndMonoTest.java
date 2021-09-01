@@ -25,22 +25,23 @@ public class FluxAndMonoTest {
     CustomException customExceptionFlux;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         customExceptionMono = new CustomException("Mono");
         customExceptionFlux = new CustomException("Flux");
     }
 
     @DisplayName("Flux just() Sample")
     @Test
-    void main(){
+    void main() {
         List<String> names = new ArrayList<>();
         Flux<String> flux = Flux.just("김구", "윤봉길", "유관순").log();
         flux.subscribe(names::add);
         assertThat(names, is(equalTo(Arrays.asList("김구", "윤봉길", "유관순"))));
     }
+
     @DisplayName("Flux range() Sample")
     @Test
-    void rangeTest(){
+    void rangeTest() {
         List<Integer> list = new ArrayList<>();
         Flux<Integer> flux = Flux.range(1, 5).log();
         flux.subscribe(list::add);
@@ -48,50 +49,55 @@ public class FluxAndMonoTest {
         assertThat(list.get(2), is(3));
         assertThat(list.get(4), not(6));
     }
+
     @DisplayName("Flux fromArray() Sample")
     @Test
-    void fromArrayTest(){
+    void fromArrayTest() {
         List<String> list = new ArrayList<>();
         Flux<String> flux = Flux.fromArray(new String[]{"김구", "윤봉길", "유관순"}).log();
         flux.subscribe(list::add);
         assertThat(list, is(equalTo(Arrays.asList("김구", "윤봉길", "유관순"))));
     }
+
     @DisplayName("Flux fromArray() Sample")
     @Test
-    void fromIterableTest(){
+    void fromIterableTest() {
         List<String> list = new ArrayList<>();
         Flux<String> flux = Flux.fromIterable(Arrays.asList("김구", "윤봉길", "유관순")).log();
         flux.subscribe(list::add);
         assertThat(list, is(equalTo(Arrays.asList("김구", "윤봉길", "유관순"))));
     }
+
     @DisplayName("Flux fromStream() Sample")
     @Test
-    void fromStreamTest(){
+    void fromStreamTest() {
         List<String> list = new ArrayList<>();
         Flux<String> flux = Flux.fromStream(Arrays.asList("김구", "윤봉길", "유관순").stream()).log();
         flux.subscribe(list::add);
         assertThat(list, is(equalTo(Arrays.asList("김구", "윤봉길", "유관순"))));
     }
+
     @DisplayName("Flux generator() Sample")
     @Test
-    void generatorTest(){
+    void generatorTest() {
         Flux<String> flux = Flux.generate(
                 () -> {
                     return 0;
-                } ,
+                },
                 (state, sink) -> {
                     sink.next("3 X " + state + " = " + 3 * state);
-                    if(state == 10){
+                    if (state == 10) {
                         sink.complete();
                     }
                     return state + 1;
-            }
+                }
         );
         flux.subscribe(System.out::println);
     }
+
     @DisplayName("Flux create() Sample")
     @Test
-    void createTest(){
+    void createTest() {
         /**
          * Flux.create()와 배압
          * Subscriber로부터 요청이 왔을 때(FluxSink#onRequest) 데이터를 전송하거나(pull 방식)
@@ -110,32 +116,34 @@ public class FluxAndMonoTest {
          * */
         Flux<Integer> flux = Flux.create((FluxSink<Integer> sink) -> {
             sink.onRequest(request -> {
-                for( int i = 1; i < request + 3; i++){ // Subscriber 가 요청한 것보다 3개 더 발생
+                for (int i = 1; i < request + 3; i++) { // Subscriber 가 요청한 것보다 3개 더 발생
                     sink.next(i);
                 }
             });
         });
         flux.subscribe(System.out::println);
     }
+
     @DisplayName("Flux empty() Sample")
     @Test
-    void emptyTest(){
-        List<String> list =new ArrayList<>();
+    void emptyTest() {
+        List<String> list = new ArrayList<>();
         Flux<String> flux = Flux.empty();
         flux.subscribe(list::add);
         assertThat(list.size(), is(0));
     }
+
     @DisplayName("Mono just() Sample")
     @Test
-    void monoJustTest(){
+    void monoJustTest() {
         /**
          * Reactive Stream 에서는 Data, Event, Signal 중에서 Signal 을 사용한다.
          * onNext, onComplete, onError
          * */
-        List<Signal<Integer>> list =new ArrayList<>(4);
+        List<Signal<Integer>> list = new ArrayList<>(4);
         final Integer[] result = new Integer[1];
         Mono<Integer> mono = Mono.just(1).log()
-                .doOnEach( i -> {
+                .doOnEach(i -> {
                     list.add(i);
                     System.out.println("Signal : " + i);
                 });
@@ -146,16 +154,17 @@ public class FluxAndMonoTest {
         assertThat(result[0].intValue(), is(1));
 
     }
+
     @DisplayName("Mono empty() Sample")
     @Test
-    void monoEmptyTest(){
+    void monoEmptyTest() {
         Mono<String> result = Mono.empty();
         assertThat(result.block(), is(nullValue()));
     }
 
     @DisplayName("Mono just() Sample")
     @Test
-    void monoJustTest2(){
+    void monoJustTest2() {
         System.out.println("------- Empty Mono -------");
         Mono.empty().subscribe(System.out::print);
         System.out.println("-------Mono.just()-------------");
@@ -165,13 +174,14 @@ public class FluxAndMonoTest {
         System.out.println("------- Empty Flux -------");
         Flux.empty().subscribe(System.out::print);
         System.out.println("-------Flux.just()-------------");
-        Flux.just("Java", "Oracle","Python")
+        Flux.just("Java", "Oracle", "Python")
                 .map(item -> item.toUpperCase())
                 .subscribe(System.out::print);
     }
+
     @DisplayName("Mono Flux error() Sample")
     @Test
-    void errorTest(){
+    void errorTest() {
         Mono.error(customExceptionMono)
                 .doOnError(e -> System.out.println("Mono inside doOnError "))
                 .subscribe(System.out::println);

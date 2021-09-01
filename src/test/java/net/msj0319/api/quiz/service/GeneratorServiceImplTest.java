@@ -15,11 +15,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
 class GeneratorServiceImplTest {
-    @Mock GeneratorServiceImpl generatorService;
+    @Mock
+    GeneratorServiceImpl generatorService;
+
     @BeforeEach
     void setUp() {
         generatorService = new GeneratorServiceImpl();
     }
+
     @DisplayName("랜덤 값 발생 알고리즘 테스트")
     @Test
     void randomFactor() {
@@ -28,7 +31,7 @@ class GeneratorServiceImplTest {
                 .boxed()
                 .collect(Collectors.toList());
 
-        assertThat(randoms).containsOnlyElementsOf(IntStream.range(11,100)
+        assertThat(randoms).containsOnlyElementsOf(IntStream.range(11, 100)
                 .boxed()
                 .collect(Collectors.toList()));
 

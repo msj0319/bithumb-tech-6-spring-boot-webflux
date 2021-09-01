@@ -16,7 +16,7 @@ public class QuizController {
     private final QuizService quizService;
 
     @GetMapping("/random")
-    public ResponseEntity<Mono<Quiz>> getQuiz(){
+    public ResponseEntity<Mono<Quiz>> getQuiz() {
         return ResponseEntity.ok(quizService.createQuiz());
     }
 }
