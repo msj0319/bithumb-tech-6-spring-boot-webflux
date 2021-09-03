@@ -1,13 +1,13 @@
 spring:
   kafka:
     consumer:
-      bootstrap-servers: localhost:9092
+      bootstrap-servers: 192.168.0.103:9092
       group-id: myGroup
       auto-offset-reset: earliest
       ket-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
   data:
     mongodb:
-      uri: mongodb://localhost:27017/test
+      uri: mongodb://192.168.0.103:27017/test
 server:
   port: 8081
